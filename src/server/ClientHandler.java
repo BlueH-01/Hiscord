@@ -22,7 +22,7 @@ public class ClientHandler implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);
 
             // Handle login
-            out.println("Enter your username:");
+            out.println("이름 입력:");
             username = in.readLine();
             ChannelManager.joinChannel(currentChannel, this);
             out.println("Welcome to the chat, " + username + "!");
