@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginFrame extends JFrame {
+public class LoginFrame extends JFrame { //id username 프로필사진
     private JTextField usernameField;
 
     public LoginFrame() {
@@ -28,9 +28,9 @@ public class LoginFrame extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                String username = usernameField.getText(); //id로 수정
                 if (!username.isEmpty()) {
-                    new MainFrame(username);
+                    new MainFrame(username); //id와 username 동시에 접근
                     dispose();
                 }
             }
