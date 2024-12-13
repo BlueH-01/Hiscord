@@ -8,7 +8,7 @@ public class ChannelManager {
     public static synchronized void joinChannel(String channel, ClientHandler client) {
         channels.putIfAbsent(channel, new ArrayList<>());
         channels.get(channel).add(client);
-        broadcast(channel, "User joined: " + client.username);
+        broadcast(channel,  client.username + "님이 " + channel + "에 참여하셨습니다." );
     }
 
     public static synchronized void leaveChannel(String channel, ClientHandler client) {

@@ -22,19 +22,18 @@ public class ClientHandler implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);
 
             // Handle login
-            out.println("이름 입력:");
             username = in.readLine();
             ChannelManager.joinChannel(currentChannel, this);
-            out.println("Welcome to the chat, " + username + "!");
+            out.println(username + "님 환영합니다" +  "!");
 
             String message;
             while ((message = in.readLine()) != null) {
                 if (message.startsWith("/join ")) {
-                    String newChannel = message.split(" ")[1];
+                	 String newChannel = message.substring(6).trim(); // '/join ' 이후의 모든 내용을 가져옴
                     ChannelManager.leaveChannel(currentChannel, this);
                     currentChannel = newChannel;
                     ChannelManager.joinChannel(currentChannel, this);
-                    out.println("Switched to channel: " + currentChannel);
+                    out.println(currentChannel + "로 채널이동");
                 } else {
                     ChannelManager.broadcast(currentChannel, username + ": " + message);
                 }
