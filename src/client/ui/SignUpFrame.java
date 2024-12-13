@@ -6,13 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+
+
 public class SignUpFrame extends JFrame {
-    private JTextField nameField, usernameField;
+    private JTextField nameField, useridField;
     private JPasswordField passwordField;
 
     public SignUpFrame() {
         setTitle("Sign Up");
-        setSize(400, 300);
+        setSize(500, 400); // 창 크기 확대
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(null);
 
@@ -25,69 +27,73 @@ public class SignUpFrame extends JFrame {
         getContentPane().setBackground(backgroundColor);
 
         // 제목 라벨
-        JLabel titleLabel = new JLabel("Create Your Account");
-        titleLabel.setBounds(50, 30, 300, 30);
+        JLabel titleLabel = new JLabel("회원 가입");
+        titleLabel.setBounds(50, 30, 400, 40); // 크기와 위치 조정
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setForeground(textColor);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 24)); // 폰트 크기 키움
         add(titleLabel);
 
         // 이름 라벨
-        JLabel nameLabel = new JLabel("Name:");
-        nameLabel.setBounds(50, 80, 80, 30);
+        JLabel nameLabel = new JLabel("이름:");
+        nameLabel.setBounds(50, 100, 100, 30);
         nameLabel.setForeground(textColor);
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
         add(nameLabel);
 
         // 이름 입력 필드
         nameField = new JTextField();
-        nameField.setBounds(140, 80, 200, 30);
+        nameField.setBounds(150, 100, 250, 40); // 크기 확장
         nameField.setBackground(new Color(64, 68, 75));
         nameField.setForeground(textColor);
         nameField.setCaretColor(textColor);
-        nameField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        nameField.setFont(new Font("맑은 고딕", Font.PLAIN, 16)); // 폰트 크기 키움
+        nameField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // 여백 조정
         add(nameField);
 
         // 아이디 라벨
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(50, 120, 80, 30);
-        usernameLabel.setForeground(textColor);
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(usernameLabel);
+        JLabel useridLabel = new JLabel("아이디:");
+        useridLabel.setBounds(50, 160, 100, 30);
+        useridLabel.setForeground(textColor);
+        useridLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
+        add(useridLabel);
 
         // 아이디 입력 필드
-        usernameField = new JTextField();
-        usernameField.setBounds(140, 120, 200, 30);
-        usernameField.setBackground(new Color(64, 68, 75));
-        usernameField.setForeground(textColor);
-        usernameField.setCaretColor(textColor);
-        usernameField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        add(usernameField);
+        useridField = new JTextField();
+        useridField.setBounds(150, 160, 250, 40); // 크기 확장
+        useridField.setBackground(new Color(64, 68, 75));
+        useridField.setForeground(textColor);
+        useridField.setCaretColor(textColor);
+        useridField.setFont(new Font("맑은 고딕", Font.PLAIN, 16)); // 폰트 크기 키움
+        useridField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // 여백 조정
+        add(useridField);
 
         // 비밀번호 라벨
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(50, 160, 80, 30);
+        JLabel passwordLabel = new JLabel("비밀번호:");
+        passwordLabel.setBounds(50, 220, 100, 30);
         passwordLabel.setForeground(textColor);
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        passwordLabel.setFont(new Font("맑은 고딕", Font.BOLD, 16));
         add(passwordLabel);
 
         // 비밀번호 입력 필드
         passwordField = new JPasswordField();
-        passwordField.setBounds(140, 160, 200, 30);
+        passwordField.setBounds(150, 220, 250, 40); // 크기 확장
         passwordField.setBackground(new Color(64, 68, 75));
         passwordField.setForeground(textColor);
         passwordField.setCaretColor(textColor);
-        passwordField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        passwordField.setFont(new Font("맑은 고딕", Font.PLAIN, 16)); // 폰트 크기 키움
+        passwordField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // 여백 조정
         add(passwordField);
 
         // 회원가입 버튼
-        JButton signUpButton = new JButton("Sign Up");
-        signUpButton.setBounds(140, 200, 200, 40);
+        JButton signUpButton = new JButton("회원 가입");
+        signUpButton.setBounds(150, 280, 250, 50); // 버튼 크기 키움
         signUpButton.setBackground(buttonColor);
         signUpButton.setForeground(Color.WHITE);
-        signUpButton.setFont(new Font("Arial", Font.BOLD, 14));
+        signUpButton.setFont(new Font("맑은 고딕", Font.BOLD, 18)); // 폰트 크기 키움
         signUpButton.setFocusPainted(false);
         signUpButton.setBorder(BorderFactory.createEmptyBorder());
+        signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 클릭 시 손 모양 커서
         add(signUpButton);
 
         // 회원가입 버튼 이벤트 리스너
@@ -95,33 +101,34 @@ public class SignUpFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
-                String username = usernameField.getText();
+                String userid = useridField.getText();
                 String password = new String(passwordField.getPassword());
 
                 // 입력값 확인
-                if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                    JOptionPane.showMessageDialog(SignUpFrame.this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (name.isEmpty() || userid.isEmpty() || password.isEmpty()) {
+                    JOptionPane.showMessageDialog(SignUpFrame.this, "모든 항목을 채워주세요.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // 사용자 정보 저장
-                    saveUserInfo(name, username, password);
-                    JOptionPane.showMessageDialog(SignUpFrame.this, "Sign Up Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    saveUserInfo(name, userid, password);
+                    JOptionPane.showMessageDialog(SignUpFrame.this, "회원 가입 성공!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     dispose(); // 회원가입 후 창 닫기
                     new LoginFrame(); // 로그인 프레임 열기
                 }
             }
         });
+        
+        setLocationRelativeTo(null); // 창을 화면 중앙에 배치
 
         setVisible(true);
     }
 
     // 사용자 정보를 Hiscord/resources/user.txt 파일에 저장하는 메서드
-    private void saveUserInfo(String name, String username, String password) {
+    private void saveUserInfo(String name, String userid, String password) {
         try {
             // 현재 디렉토리 출력
             String currentDir = System.getProperty("user.dir");
             String path = currentDir + File.separator + "resources" + File.separator + "user.txt";
 
-            
             File dir = new File("Hiscord/resources");
 
             // 디렉토리가 없으면 생성
@@ -132,17 +139,14 @@ public class SignUpFrame extends JFrame {
 
             // 파일을 덧붙이기 모드로 열기
             BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
-            writer.write(name + "," + username + "," + password);
+            writer.write(name + "," + userid + "," + password);
             writer.newLine();  // 새 줄 추가
             writer.close();
 
             System.out.println("파일에 저장됨: " + path);
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error saving user info!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "사용자 정보를 저장하는 중 오류가 발생했습니다!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
 }

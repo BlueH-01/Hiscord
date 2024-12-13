@@ -4,93 +4,166 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import models.User;
 
-public class LoginFrame extends JFrame { //id username 프로필사진
-    private JTextField usernameField;
+public class LoginFrame extends JFrame {
+    private JTextField usernameField, idField;
+    private JPasswordField passwordField;
 
     public LoginFrame() {
         setTitle("Hiscord");
-        setSize(500, 400);  // 창 크기 키움
+        setSize(1200, 1000); // 창 크기 조정 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+        setLayout(new BorderLayout());
 
-        // 다크 테마 색상
         Color backgroundColor = new Color(54, 57, 63);
         Color textColor = new Color(220, 221, 222);
         Color buttonColor = new Color(88, 101, 242);
-        
-        // 전체 배경 색상
+        Color signUpButtonColor = new Color(60, 179, 113);
+
         getContentPane().setBackground(backgroundColor);
 
-        // 제목 라벨
-        JLabel titleLabel = new JLabel("Welcome to Hiscord");
-        titleLabel.setBounds(50, 30, 400, 30);
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setForeground(textColor);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        add(titleLabel);
+        // 이미지 추가
+        ImageIcon logoIcon = new ImageIcon("resources/images/Hiscord.png");
+        Image logoImage = logoIcon.getImage();
+        Image scaledImage = logoImage.getScaledInstance(500, 400, Image.SCALE_SMOOTH); // 이미지 크기 조정
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-        // 유저네임 라벨
-        JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setBounds(50, 100, 80, 30);
+        JLabel logoLabel = new JLabel(scaledIcon);
+        logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(logoLabel, BorderLayout.NORTH);
+
+        // 전체 패널을 담을 JPanel 생성
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new GridBagLayout());
+        centerPanel.setBackground(backgroundColor);
+        add(centerPanel, BorderLayout.CENTER);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 20, 15, 20);  // 여백 조정
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        // 이름 입력 필드
+        JLabel usernameLabel = new JLabel("이름: ");
         usernameLabel.setForeground(textColor);
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(usernameLabel);
+        usernameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0; // 위치 조정 (위로 올림)
+        centerPanel.add(usernameLabel, gbc);
 
-        // 유저네임 입력 필드
         usernameField = new JTextField();
-        usernameField.setBounds(140, 100, 200, 30);
         usernameField.setBackground(new Color(64, 68, 75));
         usernameField.setForeground(textColor);
         usernameField.setCaretColor(textColor);
-        usernameField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        add(usernameField);
+        usernameField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+        usernameField.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        gbc.gridx = 1;
+        gbc.gridy = 0; 
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        usernameField.setPreferredSize(new Dimension(300, 40)); // 입력창 크기 조정
+        centerPanel.add(usernameField, gbc);
+
+        // 아이디 입력 필드
+        JLabel idLabel = new JLabel("아이디: ");
+        idLabel.setForeground(textColor);
+        idLabel.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+        gbc.gridx = 0;
+        gbc.gridy = 1; // 위치 조정 (위로 올림)
+        centerPanel.add(idLabel, gbc);
+
+        idField = new JTextField();
+        idField.setBackground(new Color(64, 68, 75));
+        idField.setForeground(textColor);
+        idField.setCaretColor(textColor);
+        idField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+        idField.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        gbc.gridx = 1;
+        gbc.gridy = 1; // 위치 조정 (위로 올림)
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        idField.setPreferredSize(new Dimension(300, 40)); // 입력창 크기 조정
+        centerPanel.add(idField, gbc);
+
+        // 비밀번호 입력 필드
+        JLabel passwordLabel = new JLabel("비밀번호: ");
+        passwordLabel.setForeground(textColor);
+        passwordLabel.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+        gbc.gridx = 0;
+        gbc.gridy = 2; // 위치 조정 (위로 올림)
+        centerPanel.add(passwordLabel, gbc);
+
+        passwordField = new JPasswordField();
+        passwordField.setBackground(new Color(64, 68, 75));
+        passwordField.setForeground(textColor);
+        passwordField.setCaretColor(textColor);
+        passwordField.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+        passwordField.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        gbc.gridx = 1;
+        gbc.gridy = 2; // 위치 조정 (위로 올림)
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        passwordField.setPreferredSize(new Dimension(300, 40)); // 입력창 크기 조정
+        centerPanel.add(passwordField, gbc);
 
         // 로그인 버튼
-        JButton loginButton = new JButton("Login");
-        loginButton.setBounds(140, 160, 200, 40);
+        JButton loginButton = new JButton("로그인");
         loginButton.setBackground(buttonColor);
         loginButton.setForeground(Color.WHITE);
-        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setFont(new Font("맑은 고딕", Font.BOLD, 26));
         loginButton.setFocusPainted(false);
         loginButton.setBorder(BorderFactory.createEmptyBorder());
-        add(loginButton);
+        loginButton.setPreferredSize(new Dimension(250, 50)); // 버튼 크기 조정
+        gbc.gridx = 0;
+        gbc.gridy = 3; 
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        centerPanel.add(loginButton, gbc);
 
-        // 회원가입 버튼
-        JButton signUpButton = new JButton("Sign Up");
-        signUpButton.setBounds(140, 220, 200, 40);  // 회원가입 버튼 위치 설정
-        signUpButton.setBackground(new Color(60, 179, 113));  // 회원가입 버튼 색상
+        // 회원 가입 버튼
+        JButton signUpButton = new JButton("회원 가입");
+        signUpButton.setBackground(signUpButtonColor);
         signUpButton.setForeground(Color.WHITE);
-        signUpButton.setFont(new Font("Arial", Font.BOLD, 14));
+        signUpButton.setFont(new Font("맑은 고딕", Font.BOLD, 26));
         signUpButton.setFocusPainted(false);
         signUpButton.setBorder(BorderFactory.createEmptyBorder());
-        add(signUpButton);
+        signUpButton.setPreferredSize(new Dimension(250, 50)); // 버튼 크기 조정
+        gbc.gridx = 0;
+        gbc.gridy = 4; 
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        centerPanel.add(signUpButton, gbc);
 
-        // 버튼 이벤트 리스너
+        // 로그인 버튼 클릭 이벤트 처리
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
-                if (!username.isEmpty()) {
-                    new MainFrame(username);
-                    dispose();
+                String id = idField.getText();
+                String password = new String(passwordField.getPassword());
+
+                if (!username.isEmpty() && !id.isEmpty() && !password.isEmpty()) {
+                    if (User.isValidUser(id, password)) {
+                        new MainFrame(username);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(LoginFrame.this, "아이디나 비밀번호가 잘못되었습니다.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(LoginFrame.this, "Please enter a username!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(LoginFrame.this, "모든 필드를 입력하세요!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
-        // 회원가입 버튼 이벤트 리스너
+        // 회원 가입 버튼 클릭 이벤트 처리
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 회원가입 화면을 띄우는 로직을 추가하세요
-                // 예시로는 새로운 SignUpFrame을 열 수 있습니다.
-                new SignUpFrame();  // 가상의 SignUpFrame 클래스를 호출
-                dispose();  // 현재 로그인 창을 닫기
+                new SignUpFrame();
+                dispose();
             }
         });
 
+        // 화면 가운데에 띄우기
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }

@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(String username) {
         setTitle("Chat - " + username);
-        setSize(900, 600);
+        setSize(1200, 1000); // Increased size to match the login window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
         chatInput.setBackground(inputColor);
         chatInput.setForeground(textColor);
         chatInput.setCaretColor(textColor);
+        chatInput.setPreferredSize(new Dimension(500, 40));  // 채팅 입력창 크기 키움
         inputPanel.add(chatInput, BorderLayout.CENTER);
 
         JButton sendButton = new JButton("Send");
@@ -84,7 +85,7 @@ public class MainFrame extends JFrame {
         channelScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         channelScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         channelScrollPane.getVerticalScrollBar().setUnitIncrement(16); // 스크롤 속도 설정
-       
+
         channelPanel.add(channelScrollPane, BorderLayout.CENTER);
 
         // 새 채널 추가 UI
@@ -97,11 +98,13 @@ public class MainFrame extends JFrame {
         newChannelField.setCaretColor(textColor);
         addChannelPanel.add(newChannelField, BorderLayout.CENTER);
 
-        JButton addChannelButton = new JButton("채널 추가");
+        JButton addChannelButton = new JButton("+");
+        addChannelButton.setFont(new Font("Arial", Font.BOLD, 24));
         addChannelButton.setBackground(buttonColor);
         addChannelButton.setForeground(Color.WHITE);
         addChannelButton.setFocusPainted(false);
         addChannelButton.setBorder(BorderFactory.createEmptyBorder());
+        addChannelButton.setPreferredSize(new Dimension(30, 30));
         addChannelPanel.add(addChannelButton, BorderLayout.EAST);
 
         channelPanel.add(addChannelPanel, BorderLayout.SOUTH);
@@ -159,6 +162,7 @@ public class MainFrame extends JFrame {
 
         // 기본 채널 추가
         addDefaultChannels();
+        setLocationRelativeTo(null);
 
         setVisible(true);
     }
