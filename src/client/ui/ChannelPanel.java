@@ -1,4 +1,3 @@
-// ChannelPanel.java
 package client.ui;
 
 import javax.swing.*;
@@ -23,10 +22,14 @@ public class ChannelPanel extends JPanel {
         channelList.setBackground(new Color(47, 49, 54));
         channelList.setForeground(new Color(220, 221, 222));
         channelList.setSelectionForeground(Color.WHITE);
+        channelList.setCellRenderer(new CircleCellRenderer()); // 원형 셀 렌더러 적용
 
         JScrollPane channelScrollPane = new JScrollPane(channelList);
         channelScrollPane.setBorder(BorderFactory.createEmptyBorder());
         channelScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        channelScrollPane.getVerticalScrollBar().setOpaque(false); // 스크롤바 투명하게 설정
+        channelScrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0)); // 스크롤바 숨기기
+        
         add(channelScrollPane, BorderLayout.CENTER);
 
         JPanel addChannelPanel = new JPanel(new BorderLayout());
@@ -75,5 +78,40 @@ public class ChannelPanel extends JPanel {
         channelListModel.addElement("한성대학교");
         channelListModel.addElement("환수월드");
         channelListModel.addElement("준선월드");
+    }
+
+    private class CircleCellRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    // 기본 배경
+                    g.setColor(new Color(78, 84, 92)); // 회색 동그라미
+                    g.fillOval(0, 0, getWidth(), getHeight());
+
+                    // 선택된 경우의 배경
+                    if (isSelected) {
+                        g.setColor(new Color(88, 101, 242)); // 파란색 동그라미
+                        g.fillOval(0, 0, getWidth(), getHeight());
+                    }
+                }
+            };
+
+            panel.setLayout(new BorderLayout());
+
+            // 채널 이름을 표시하는 라벨
+            JLabel label = new JLabel(value.toString(), SwingConstants.CENTER);
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("맑은 고딕", Font.BOLD, 16)); // 글꼴은 맑은 고딕, 굵게, 크기는 16
+
+            panel.add(label, BorderLayout.CENTER);
+            panel.setPreferredSize(new Dimension(100, 100)); // 동그라미 크기 설정
+            panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 여백 설정
+            panel.setOpaque(false); // 투명하게 설정
+
+            return panel;
+        }
     }
 }
