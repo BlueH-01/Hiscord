@@ -1,10 +1,10 @@
-// MainFrame.java
 package client.ui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class MainFrame extends JFrame {
     public MainFrame(String username) {
@@ -25,12 +25,22 @@ public class MainFrame extends JFrame {
             ChannelPanel channelPanel = new ChannelPanel(out);
             add(channelPanel, BorderLayout.WEST);
 
+            // 접속 중인 멤버 패널 추가
+            RightPanel rightPanel = new RightPanel();
+            add(rightPanel, BorderLayout.EAST);
+
             // 서버 메시지 수신
             new Thread(() -> {
                 try {
                     String message;
                     while ((message = in.readLine()) != null) {
-                        chatPanel.appendMessage(message);
+                        if (message.startsWith("/members")) {
+                            // 멤버 리스트 업데이트 메시지 처리
+                            String[] members = message.substring(9).split(",");
+                            rightPanel.updateMembers(Arrays.asList(members));
+                        } else {
+                            chatPanel.appendMessage(message);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
