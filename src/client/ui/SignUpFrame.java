@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-
-
 public class SignUpFrame extends JFrame {
     private JTextField nameField, useridField;
     private JPasswordField passwordField;
@@ -107,6 +105,8 @@ public class SignUpFrame extends JFrame {
                 // 입력값 확인
                 if (name.isEmpty() || userid.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(SignUpFrame.this, "모든 항목을 채워주세요.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (isUserIdDuplicated(userid)) { // 아이디 중복 확인
+                    JOptionPane.showMessageDialog(SignUpFrame.this, "이미 사용 중인 아이디입니다.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // 사용자 정보 저장
                     saveUserInfo(name, userid, password);
@@ -116,7 +116,7 @@ public class SignUpFrame extends JFrame {
                 }
             }
         });
-        
+
         setLocationRelativeTo(null); // 창을 화면 중앙에 배치
 
         setVisible(true);
@@ -148,5 +148,38 @@ public class SignUpFrame extends JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "사용자 정보를 저장하는 중 오류가 발생했습니다!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // 중복된 아이디가 있는지 확인하는 메서드
+    private boolean isUserIdDuplicated(String userid) {
+        try {
+            // 현재 디렉토리 출력
+            String currentDir = System.getProperty("user.dir");
+            String path = currentDir + File.separator + "resources" + File.separator + "user.txt";
+
+            File file = new File(path);
+
+            // 파일이 존재하지 않으면 중복 없음
+            if (!file.exists()) {
+                return false;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 2 && parts[1].equals(userid)) {
+                    reader.close();
+                    return true; // 중복된 아이디 발견
+                }
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false; // 중복된 아이디 없음
     }
 }
