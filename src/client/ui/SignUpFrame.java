@@ -150,7 +150,7 @@ public class SignUpFrame extends JFrame {
         }
     }
 
-    // 중복된 아이디가 있는지 확인하는 메서드
+
     private boolean isUserIdDuplicated(String userid) {
         try {
             // 현재 디렉토리 출력

@@ -1,57 +1,79 @@
+// ChannelPanel.java
 package client.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 
 public class ChannelPanel extends JPanel {
     private DefaultListModel<String> channelListModel;
     private JList<String> channelList;
-    private PrintWriter out;
-    private ChatPanel chatPanel;
 
-    public ChannelPanel(PrintWriter out, ChatPanel chatPanel) {
-        this.out = out;
-        this.chatPanel = chatPanel;
-
+    public ChannelPanel(PrintWriter out) {
         setLayout(new BorderLayout());
+        setBackground(new Color(47, 49, 54));
 
-        // 채널 목록 모델 및 JList
+        JLabel channelLabel = new JLabel("채널");
+        channelLabel.setForeground(new Color(220, 221, 222));
+        channelLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(channelLabel, BorderLayout.NORTH);
+
         channelListModel = new DefaultListModel<>();
         channelList = new JList<>(channelListModel);
-        JScrollPane scrollPane = new JScrollPane(channelList);
-        add(scrollPane, BorderLayout.CENTER);
+        channelList.setBackground(new Color(47, 49, 54));
+        channelList.setForeground(new Color(220, 221, 222));
+        channelList.setSelectionForeground(Color.WHITE);
 
-        // 채널 전환 버튼
-        JButton joinButton = new JButton("Join Channel");
-        add(joinButton, BorderLayout.SOUTH);
+        JScrollPane channelScrollPane = new JScrollPane(channelList);
+        channelScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        channelScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(channelScrollPane, BorderLayout.CENTER);
 
-        joinButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        JPanel addChannelPanel = new JPanel(new BorderLayout());
+        addChannelPanel.setBackground(new Color(47, 49, 54));
+
+        JTextField newChannelField = new JTextField();
+        newChannelField.setBackground(new Color(64, 68, 75));
+        newChannelField.setForeground(new Color(220, 221, 222));
+        newChannelField.setCaretColor(new Color(220, 221, 222));
+        addChannelPanel.add(newChannelField, BorderLayout.CENTER);
+
+        JButton addChannelButton = new JButton("+");
+        addChannelButton.setBackground(new Color(88, 101, 242));
+        addChannelButton.setForeground(Color.WHITE);
+        addChannelButton.setFocusPainted(false);
+        addChannelPanel.add(addChannelButton, BorderLayout.EAST);
+
+        add(addChannelPanel, BorderLayout.SOUTH);
+
+        // 새 채널 추가 이벤트
+        addChannelButton.addActionListener(e -> {
+            String newChannel = newChannelField.getText().trim();
+            if (!newChannel.isEmpty() && !channelListModel.contains(newChannel)) {
+                out.println("/addchannel " + newChannel);
+                newChannelField.setText("");
+            }
+        });
+
+        // 채널 전환 이벤트
+        channelList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
                 String selectedChannel = channelList.getSelectedValue();
                 if (selectedChannel != null) {
-                    chatPanel.switchChannel(selectedChannel);
+                    out.println("/join " + selectedChannel);
                 }
             }
         });
 
-        // 기본 채널 추가
         addDefaultChannels();
     }
 
     private void addDefaultChannels() {
-        channelListModel.addElement("general");
-        channelListModel.addElement("sports");
-        channelListModel.addElement("technology");
-        channelListModel.addElement("music");
-    }
-
-    public void addChannel(String channelName) {
-        if (!channelListModel.contains(channelName)) {
-            channelListModel.addElement(channelName);
-        }
+        channelListModel.addElement("네프 회의");
+        channelListModel.addElement("채팅 공부");
+        channelListModel.addElement("웹만들기");
+        channelListModel.addElement("한성대학교");
+        channelListModel.addElement("환수월드");
+        channelListModel.addElement("준선월드");
     }
 }
